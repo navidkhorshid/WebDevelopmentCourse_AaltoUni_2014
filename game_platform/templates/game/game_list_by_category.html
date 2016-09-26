@@ -1,0 +1,25 @@
+<div class="container">
+    <hr style="height: 3px;border-top: 1px solid #045FB4">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="row text-center">
+            {% for item in games %}
+                   <div class="col-lg-4 col-md-4 col-xs-4" style="margin-bottom:20px">
+                    <div class="thumbnail">
+                            {% if item.picture_url %}
+                                <img class="img-responsive" src="{{ item.picture_url }}" alt="" style="width:100%">
+                            {% else %}
+                                <img class="img-responsive" src="{{ STATIC_URL }}img/gp.jpg" alt=""  style="width:100%">
+                            {% endif %}
+                        <div class="caption">
+                            <a href="/game/{{ item.id }}">{{ item.title }}</a>
+                        </div>
+                        <p>Price: ${{item.price}}</p>
+                        <p>Downloads: {{item.invoices}} Time(s)</p>
+                    </div>
+                   </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

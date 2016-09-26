@@ -1,0 +1,54 @@
+{% extends 'base_home.html' %}
+
+{% block head %}
+
+{% endblock head %}
+
+{% block cat_menu %}
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Developer's Options<b class="caret"></b></a>
+    <ul id="categoryMenu" class="dropdown-menu">
+        <li><a href="/dev/new">Add a Game</a></li>
+        <li><a href="/dev">My Game Inventory</a></li>
+        <li><a href="/dev/sales">Sales Statistics</a></li>
+    </ul>
+{% endblock cat_menu %}
+
+{% block body %}
+
+            <h2>Edit Game "{{ game_name }}"</h2>
+            <div id="my_style" style="padding-left: 20%;padding-right: 20%;">
+            <form action="/dev/edit/{{ game_id }}" method="POST" role="form">
+                {% csrf_token %}
+                {% if form.errors %} <p>Please correct the following errors:</p> {% endif %}
+                <span class="errors">{{ form.non_field_errors }}</span>
+                <div class="add_game_div">
+                    <p><label for="picture_url">Picture URL: </label></p>
+                    {% if form.picture_url.errors %} <span class="errors">{{ form.picture_url.errors }}</span> {% endif %}
+                    <p>{{ form.picture_url }}</p>
+                </div>
+                <div class="add_game_div">
+                    <p><label for="game_url">Game URL: </label></p>
+                    {% if form.game_url.errors %} <span class="errors">{{ form.game_url.errors }}</span> {% endif %}
+                    <p>{{ form.game_url }}</p>
+                </div>
+                <div class="add_game_div">
+                    <p><label for="price">Price: </label></p>
+                    {% if form.price.errors %} <span class="errors">{{ form.price.errors }}</span> {% endif %}
+                    <p>{{ form.price }}</p>
+                </div>
+                <div class="add_game_div">
+                    <p><label for="description">Description: </label></p>
+                    {% if form.description.errors %} <span class="errors">{{ form.description.errors }}</span> {% endif %}
+                    <p>{{ form.description }}</p>
+                </div>
+                <div class="add_game_div">
+                    <p><label for="category">Category: </label></p>
+                    {% if form.category.errors %} <span class="errors">{{ form.category.errors }}</span> {% endif %}
+                    <p>{{ form.category }}</p>
+                </div>
+                <div class="form-group">
+                    <p><button type="submit" name="btn_add" value="btnAdd" class="btn btn-primary btn-lg" ><R>Modify Game</R></button>
+                </div>
+            </form>
+            </div>
+{% endblock body %}

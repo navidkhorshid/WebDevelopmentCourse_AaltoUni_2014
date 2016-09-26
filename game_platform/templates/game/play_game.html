@@ -1,0 +1,124 @@
+{% extends 'base_home.html' %}
+{% block head %}
+    <script>
+        $(document).ready( function() {
+        "use strict";
+            // Function that will handle the arrival of the message with the score
+            // if you use postMessage, you can access the data ONLY if you
+            // access it via originalEvent property of the event object.
+        function processMessage(event){
+            // There also can be check whether the type of the data received is
+            // "score" though assessing event.originalEvent.data.messageType == "SCORE":
+            //$("#iframe_output").text(event.originalEvent.data.score)
+            if(event.originalEvent.data.messageType === "SAVE") {
+                var game_state = event.originalEvent.data.gameState;
+                var game_score = game_state["score"];
+                var player_items = game_state["playerItems"];
+                alert("Player Iteams are: ".concat(player_items))
+                //game_state = JSON.stringify(game_state);
+                var game_id = $("#game_id").attr("value");
+                player_items =  JSON.stringify(player_items)  // <- We need this before sending to server
+                // Sending to the back-end:
+                $.ajax({
+                type: "GET",
+                url: "/game/save/",
+                data: { "game_id": game_id, "game_score": game_score, "player_items": player_items},
+                dataType: "json",
+                success: function(){
+                    alert("The game has been saved!");
+                }
+                });
+            } else if (event.originalEvent.data.messageType === "SCORE") {
+                var game_score = event.originalEvent.data.score;
+                var game_id = $("#game_id").attr("value");
+                // Sending to the back-end:
+                $.ajax({
+                    type: "GET",
+                    url: "/game/score/",
+                    data: {"game_id": game_id, "game_score": game_score},
+                    dataType: "json",
+                    success: function(score) {
+                        //alert(score);  <- uncomment only if I am debugging
+                        $("#iframe_output").text(score)
+                    }
+                });
+            } else if(event.originalEvent.data.messageType === "LOAD_REQUEST") {
+                var game_id = $("#game_id").attr("value");
+                $.ajax({
+                    type: "GET",
+                    url: "/game/load/",
+                    data: {"game_id": game_id},
+                    dataType: "json",
+                    success: function(received_data) {
+                        //alert(received_data);
+                        // received_data = JSON.parse(received_data); // <- Javascript already parsed it, so we don't need this line!
+                        if (received_data !== "None") {
+                            var score = received_data["score"];
+                            var player_items = received_data["playerItems"];
+                            var game_id = received_data['game_id'];  // NOTE: this game_id is not used anywhere for now!
+                            //alert(game_id);
+                            //alert(score);
+                            //alert(player_items);
+                            var msg = {
+                                "messageType": "LOAD",
+                                "gameState": {
+                                    "playerItems": player_items,
+                                    "score": score
+                                }
+                            };
+                            document.getElementById("iframe").contentWindow.postMessage(msg, "*");
+                            alert("The game has been loaded");
+                        } else {
+                            // If we received "None" meaning the game hasn't ever been saved before:
+                            var msg = {
+                                "messageType": "LOAD",
+                                "gameState": {
+                                    "playerItems": "",
+                                    "score": 0
+                                }
+                                };
+                             document.getElementById("iframe").contentWindow.postMessage(msg, "*");
+                            alert("You have not ever saved this game before!")
+                            };
+                        }
+                    });
+            }
+        // End of Function
+        }
+            // Register Event Handler
+            $(window).on('message', null, processMessage)
+      });
+    </script>
+    <link href="{{ STATIC_URL }}css/play_game.css" rel="stylesheet">
+{% endblock head %}
+
+{% block body %}
+    <input id="game_id" type="text" value="{{game_id}}" hidden="True" />
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="page-header"><small>You are now playing: </small>{{ game.title }}</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-md-8">
+                <iframe id="iframe" name="Game" width="100%" height="450" class="embed-responsive-item"
+                        src="{{ game.game_url }}" frameborder="0" allowfullscreen>
+                    If you can see this, your browser doesn't understand IFRAME or the game is not available.
+                </iframe>
+            </div>
+            <div class="col-lg-4 col-md-4">
+                    <div class="game-frame">
+                    <div class="caption">
+                        <h4>Submitted Score: <p id="iframe_output"></p></h4>
+                        <hr style="border-color:#FFFFE0">
+                        <h4>High scores:</h4>
+                        {% for pg in player_game %}
+                            <p>"{{ pg.player.user.username }}" : {{ pg.score }}</p>
+                        {% endfor %}
+                    </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}

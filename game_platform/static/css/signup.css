@@ -1,0 +1,43 @@
+body {
+    background-color: lightgray;
+}
+
+.signup {
+        background-color: #f7f7f7;
+        width: 70%;
+        border-radius: 7px;
+        margin: 10px auto 0;
+        padding: 30px 20px;
+}
+
+.signup form {
+    margin-top: 20px;
+}
+
+.signup h2 {
+    margin: 0;
+}
+
+.app_title {
+    margin: 0;
+    font-size: 3em;
+    font-weight: 200;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-align: center;
+    text-shadow: 1px 1px 0 #333333;
+    line-height: 70px;
+}
+
+.app_title a {
+    color: cornflowerblue;
+}
+
+.app_title a:hover, .app_title a:focus {
+    color: cornflowerblue;
+    text-decoration: none;
+}
+
+.errors
+{
+    color: red;
+}

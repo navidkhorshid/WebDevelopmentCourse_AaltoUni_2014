@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link href="{{ STATIC_URL }}css/signup.css" rel="stylesheet">
+{% endblock head %}
+{% block body %}
+    <div class="signup_page">
+        <h1 class="app_title"><a href="{% url 'login' %}">Game Platform</a></h1>
+        <div class="signup">
+            <h2>Sign up for Game Platform</h2>
+            <form action="{% url 'signup' %}" method="POST" role="form">
+                {% csrf_token %}
+                {% if form.errors %} <p>Please correct the following errors:</p> {% endif %}
+                <span class="errors">{{ form.non_field_errors }}</span>
+                <div class="register_div">
+                    <p><label for="username">Username: </label></p>
+                    {% if form.username.errors %} <span class="errors">{{ form.username.errors }}</span> {% endif %}
+                    <p>{{ form.username}}</p>
+                </div>
+                <div class="register_div">
+                    <p><label for="email">E-mail: </label></p>
+                    {% if form.email.errors %} <span class="errors">{{ form.email.errors }}</span> {% endif %}
+                    <p>{{ form.email }}</p>
+                </div>
+                <div class="register_div">
+                    <p><label for="password">Password: </label></p>
+                    {% if form.password.errors %} <span class="errors">{{ form.password.errors }}</span> {% endif %}
+                    <p>{{ form.password }}</p>
+                </div>
+                <div class="register_div">
+                    <p><label for="password2">Re-type Password: </label></p>
+                    {% if form.password2.errors %} <span class="errors">{{ form.password2.errors }}</span> {% endif %}
+                    <p>{{ form.password2 }}</p>
+                </div>
+                <div class="form-group">
+                    <p><button type="submit" name="btn_player" value="btnPlayer" class="btn btn-primary btn-lg" ><R>Register as a Player</R></button>
+                    <button type="submit" name="btn_developer" value="btnDeveloper" class="btn btn-primary btn-lg" >Register as a Developer</button></p>
+                 </div>
+            </form>
+        </div>
+    </div>
+{% endblock body %}

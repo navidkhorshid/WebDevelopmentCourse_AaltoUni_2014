@@ -1,0 +1,43 @@
+{% extends 'base_home.html' %}
+
+{% block head %}
+
+{% endblock head %}
+
+{% block cat_menu %}
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Developer's Options<b class="caret"></b></a>
+    <ul id="categoryMenu" class="dropdown-menu">
+        <li><a href="/dev/new">Add a Game</a></li>
+        <li><a href="/dev/sales">Sales Statistics</a></li>
+    </ul>
+{% endblock cat_menu %}
+
+{% block body %}
+    <h2>Game Inventory</h2>
+        <div id="tableContainer" style="padding-left: 20%;padding-right: 20%;">
+            <table class="table table-bordered table-hover" id="statTable">
+                <thead>
+                    <tr class="info">
+                        <th>Game Title</th>
+                        <th>Number of Invoices</th>
+                        <th>Total Amount</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for game in games %}
+                        <tr>
+                            <td><a href="/game/{{ game.id }}">{{ game.title }}</a></td>
+                            <td>{{ game.invoices }}</td>
+                            <td>$ {{ game.total_sell.purchasePrice__sum }}</td>
+                            <td><a href="/dev/edit/{{ game.id }}"><span class="label label-info">Edit</span></a></td>
+                            <td><a href="/dev/sales/{{ game.id }}"><span class="label label-info">Stats</span></a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+{% endblock body%}
+
+

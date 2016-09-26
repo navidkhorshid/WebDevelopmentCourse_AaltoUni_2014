@@ -1,0 +1,11 @@
+make changes always in the master branch!
+when deploying, commit all changes, go to heroku branch and merge master branch to heroku branch
+to deploy to heroku:
+git push heroku heroku:master
+-----------------------------
+to run manage.py commands:
+heroku run python ./manage.py ...
+-----------------------------
+
+Website:
+http://peaceful-cliffs-8403.herokuapp.com/

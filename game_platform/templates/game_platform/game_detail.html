@@ -1,0 +1,57 @@
+{% extends 'base_home.html' %}
+    <link href="{{ STATIC_URL }}css/game_detail.css" rel="stylesheet">
+{% block head %}
+
+{% endblock head %}
+{% block body %}
+        <div class="container" style="padding-top:70px">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3 style="color:#0A1B2A">{{ object.title }}</h3>
+                </div>
+            </div>
+            <hr style="height: 3px;border-top: 1px solid #045FB4">
+            <div class="row text-center">
+                <div class="col-lg-3 col-md-6 col-xs-6">
+                    <div class="game">
+                        <div class="img-responsive" style="margin-bottom: 30px">
+                            {% if object.picture_url %}
+                	            <img class="img-responsive" src="{{ object.picture_url }}" alt="" style="width:100%">
+                            {% else %}
+                                <img class="img-responsive" src="{{ STATIC_URL }}img/gp.jpg" alt="" style="width:100%">
+                            {% endif %}
+                            <div class="caption">
+                                <h3>Category: {{ object.category.title }}</h3>
+                                <h3>Price: ${{ object.price }}</h3>
+                                <p>
+                                    {% if user.is_authenticated %}
+                                        <form action="{% url 'payment' %}" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="game_id" value="{{ object.id }}" />
+                                            <input type="submit" class="btn btn-primary btn-md" value="Buy/Play"/>
+                                        </form>
+                                    {% else %}
+                                        <a href="{% url 'login' %}" class="btn btn-primary btn-md">Login to Buy/Play</a>
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-xs-6" style="margin-bottom: 30px">
+                        <div class="game">
+                            <div class="caption" >
+                                <h2>Game Description</h2>
+                                <hr>
+                                <p>{{ object.description }}</p>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    <hr/>
+    <p><a href="{% url 'home' %}">Back to product list</a></p>
+{% endblock body %}
+
+
+

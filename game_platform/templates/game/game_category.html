@@ -1,0 +1,30 @@
+{% extends 'base_home.html' %}
+
+{% block head %}
+    <script src="{{ STATIC_URL }}js/category_games_ui.js"></script>
+    <link href="{{ STATIC_URL }}css/thumbnail.css" rel="stylesheet">
+{% endblock head %}
+
+{% block cat_menu %}
+    {% include "game/category_menu.html" %}
+{% endblock cat_menu %}
+
+{% block body %}
+        {% if category %}
+            <h2 id="categoryName">{{ category.title }}</h2>
+        {% elif games %}
+            <h2 id="categoryName">{{ p_title }}</h2>
+        {% endif %}
+        <div id="tableContainer">
+            {% if games %}
+                {% include "game/game_list_by_category.html" %}
+            {% elif category %}
+                <h2 id="some_text">No Results Found!</h2>
+            {% else %}
+                <h2 id="some_text">{{ p_title }}</h2><hr>
+                <h2 id="some_text2">No Results Found!</h2>
+            {% endif %}
+        </div>
+{% endblock body%}
+
+

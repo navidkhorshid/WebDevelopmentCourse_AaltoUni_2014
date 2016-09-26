@@ -1,0 +1,42 @@
+{% extends 'base_home.html' %}
+
+{% block head %}
+
+{% endblock head %}
+
+{% block cat_menu %}
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Developer's Options<b class="caret"></b></a>
+    <ul id="categoryMenu" class="dropdown-menu">
+        <li><a href="/dev/new">Add a Game</a></li>
+        <li><a href="/dev">My Game Inventory</a></li>
+        <li><a href="/dev/sales">Sales Statistics</a></li>
+    </ul>
+{% endblock cat_menu %}
+
+{% block body %}
+    <h2>Sales Statistics</h2>
+        <div id="tableContainer" style="padding-left: 20%;padding-right: 20%;">
+            <table class="table table-bordered table-hover" id="statTable">
+                <thead>
+                    <tr>
+                        <th>Sold to</th>
+                        <th>Game Title</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for player_game in player_games %}
+                        <tr>
+                            <th>{{ player_game.player.user.username }}</th>
+                            <th>{{ player_game.game.title}}</th>
+                            <th>{{ player_game.purchaseTime.day }}/{{ player_game.purchaseTime.month }}/{{ player_game.purchaseTime.year }}</th>
+                            <th>{{ player_game.purchaseTime.hour }}:{{ player_game.purchaseTime.minute }}:{{ player_game.purchaseTime.second }}</th>
+                            <th>{{ player_game.purchasePrice }}</th>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+{% endblock body%}

@@ -1,0 +1,12 @@
+{% extends 'base_home.html' %}
+{% block body %}
+    <div id="my_style" style="padding-left: 20%;padding-right: 20%;">
+        <div class="page-header">
+            <h1>Oooops!</h1>
+        </div>
+        <div class="alert alert-warning" role="alert">
+        <p style="margin-top: 1.2em">What is wrong?</p>
+        <p style="margin-top: 1.2em">{{ error_message }}</p>
+        </div>
+    </div>
+{% endblock body %}

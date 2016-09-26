@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}Game Platform{% endblock %}</title>
+        <link rel="icon" type="image/jpg" href="{{ STATIC_URL }}img/gp.jpg">
+        <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet">
+        <link href="{{ STATIC_URL }}css/game_platform.css" rel="stylesheet">
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <script src="{{ STATIC_URL }}js/jquery-2.1.1.min.js"></script>
+        <script src="{{ STATIC_URL }}js/jquery-1.11.1.min.js"></script>
+        <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+        {% block head %}
+        {% endblock head %}
+    </head>
+    <body>
+        <header>
+            <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="{% url 'home' %}">Game Platform</a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="menu">
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown">
+                                {% block cat_menu %}
+                                {% endblock cat_menu %}
+                            </li>
+                            <li><a href="{% url 'game_list' %}">All Games</a></li>
+                            <li><a href="{% url 'popular_games' %}">Recently Downloaded Games</a></li>
+                        </ul>
+
+                        <form class="navbar-form navbar-left" role="search" action="{% url 'home' %}">
+                            <div class="input-group" style="width:210px">
+                                <input type="text" class="form-control" name="query" placeholder="Search">
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn btn-default">Go</button>
+                                </span>
+                            </div>
+                        </form>
+                        <ul class="nav navbar-nav navbar-right">
+                            {% if user.is_authenticated %}
+                                <li><a href="{% url 'login' %}">Hello {{ user.get_username }}</a></li>
+                            {% else %}
+                                <li><a href="{% url 'login' %}">Hello Guest!</a></li>
+                            {% endif %}
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    {% if user.is_authenticated %}
+                                        <li><a href="{% url 'logout' %}">Logout</a></li>
+                                    {% else %}
+                                        <li><a href="{% url 'login' %}">Login</a></li>
+                                        <li><a href="{% url 'signup' %}">Sign Up</a></li>
+                                    {% endif %}
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        {% block body %}
+        {% endblock body%}
+    </body>
+</html>

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block head %}
+<link href="{{ STATIC_URL }}css/signin.css" rel="stylesheet">
+{% endblock head %}
+
+{% block body %}
+<div class="login_page">
+    <h1 class="app_title">Game Platform</h1>
+    <div class="login">
+        <form action="{% url 'login' %}" method="POST" role="form">
+            {% csrf_token %}
+            {% if form.errors %} <p>Please correct the following errors:</p> {% endif %}
+            <span class="errors">{{ form.non_field_errors }}</span>
+            <div class="login_div">
+                <p><label for="username">Username: </label></p>
+                {% if form.username.errors %} <span class="errors">{{ form.username.errors }}</span> {% endif %}
+                <p>{{ form.username}}</p>
+            </div>
+            <div class="login_div">
+                <p><label for="password">Password: </label></p>
+                {% if form.password.errors %} <span class="errors">{{ form.password.errors }}</span> {% endif %}
+                <p>{{ form.password }}</p>
+            </div>
+            <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-md">Log in</button>
+            <a href="{% url 'signup' %}" class="btn btn-primary btn-md">Sign up for Game Platform</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock body %}

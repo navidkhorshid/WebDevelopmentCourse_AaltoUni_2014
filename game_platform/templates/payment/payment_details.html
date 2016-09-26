@@ -1,0 +1,37 @@
+{% extends 'base_home.html' %}
+
+{% block head %}
+    <link href="{{ STATIC_URL }}css/payment.css" rel="stylesheet">
+{% endblock head %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-4 col-md-6">
+                <div class="form-group">
+                    <form action="http://payments.webcourse.niksula.hut.fi/pay/" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="pid" value="{{ pid }}" />
+                        <input type="hidden" name="sid" value="{{ sid }}" />
+                        <input type="hidden" name="success_url" value="http://peaceful-cliffs-8403.herokuapp.com/pay/success" />
+                        <input type="hidden" name="cancel_url" value="http://peaceful-cliffs-8403.herokuapp.com/pay/failed" />
+                        <input type="hidden" name="error_url" value="http://peaceful-cliffs-8403.herokuapp.com/pay/failed" />
+                        <input type="hidden" name="checksum" value="{{ checksum }}" />
+                        <p><label>Game: {{ game.title }}</label></p>
+                        <p><label>Category: {{ game.category.title }}</label></p>
+                        <p><label>Description: {{ game.description }}</label></p>
+                        <p><label for="id_amount">Price: ${{ amount }}</label>
+                            <input type="hidden" id="id_amount" name="amount" value="{{ amount }}" /></p>
+                        <div class="wrapper">
+                            <span class="group-btn">
+                                <input type="submit" class="btn btn-primary btn-md" value="Accept Payment"/>
+                                <a href="/game/{{ game.id }}" class="btn btn-primary btn-md">Back To Game Page</a>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body%}
+
